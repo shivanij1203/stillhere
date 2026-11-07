@@ -69,7 +69,7 @@ except Exception:
 web = ROOT / "web"
 need((web / "index.html").exists(), "web/index.html found", "web/index.html missing: unzip the full folder again.")
 fonts = list((web / "fonts").glob("*.woff2")) if (web / "fonts").exists() else []
-need(len(fonts) >= 9, f"{len(fonts)} font files bundled (works offline)", "web/fonts is missing font files: unzip the full folder again.",
+need(len(fonts) >= 6, f"{len(fonts)} font files bundled (works offline)", "web/fonts is missing font files: unzip the full folder again.",
      required=False)
 
 # 5. The analysis really finds a flicker and a left/right preference

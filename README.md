@@ -109,7 +109,7 @@ Set **s per trial** to 6 for a quick look (about 2 minutes per run).
    python -m blindspot.server --source lsl --min-gap-hours 0
    ```
    Open **http://localhost:8765** in Chrome, click **Live demo**. The header should say **BCI Core · g.Pype** and **4 ch · 250 Hz**, and the brain view shows sensors S1 to S4 on the back of the head.
-5. **Headset check:** click **Headset check** and look *directly* at the left half, then the right half. The live left and right bars should clearly swap. Press **Esc** to stop. If they don't swap, fix the sensor contact before testing.
+5. **Headset check:** click **Headset check** and look *directly* at the left panel, then the right panel. The live left and right bars should clearly swap. Press **Esc** to stop. If they don't swap, fix the sensor contact before testing.
 
 The scripts open the headset with 4 channels and our serial, so they never grab another team's headset. For a different headset: `python scripts/stream_core.py --serial U4-XXXX.XX.XX` (or `--channels 8` for a Core-8).
 
@@ -137,7 +137,7 @@ The slide deck is in `docs/StillHere-deck.pdf`.
 The person never moves or speaks.
 
 - **Before:** sit 50 to 60 cm from the screen in a dim room, sound on. Relax the jaw and neck.
-- **Step 1 (about 45 s):** look at the red dot. Both halves flicker, then gray, then flicker. Eyes open; blink during the gray rests.
+- **Step 1 (about 45 s):** look at the red dot. Both panels flicker, then go gray, then flicker. Eyes open; blink during the gray rests.
 - **Step 2 (12 commands, about 3 to 4 min):** the voice says "Focus on the left side." **Keep the eyes on the red dot** and pay attention to that half without looking at it, like watching someone out of the corner of your eye. Rest between commands.
 - **Yes/No test:** a question is spoken. Attend **left for YES**, **right for NO**.
 - **Eyes-closed test:** eyes closed the whole time, no screen needed. First two "relax" trials (we check for alpha waves). Then the voice says either "count backwards from ... by sevens" (do it in your head, don't move your lips) or "just relax, don't count anything". 12 times, random order.
@@ -276,7 +276,7 @@ left half  @ 8.57 Hz  ──eye──▶   visual cortex pulses at the     ─�
 right half @ 12 Hz               speeds of the halves it sees           ──▶ "left hidden" / "right hidden" / "none"
 ```
 
-1. **Stimulus** (`web/index.html`): full-screen checkerboard halves, flickering on exact frame counts (60/7 Hz and 60/5 Hz on a 60 Hz screen). The page measures the real refresh rate and adjusts.
+1. **Stimulus** (`web/index.html`): two big checkerboard panels (one per side, on a dark background), flickering on exact frame counts (60/7 Hz and 60/5 Hz on a 60 Hz screen). The page measures the real refresh rate and adjusts.
 2. **Acquisition** (`blindspot/sources.py`): reads the Unicorn BCI Core-4/8 through g.Pype and LSL, or the Unicorn Hybrid Black through BrainFlow. A simulator produces fake EEG with a flicker response so everything runs without a headset.
 3. **Analysis** (`blindspot/analysis.py`): notch at 60 Hz, band-pass 3 to 40 Hz, Hann-windowed FFT, then signal-to-noise ratio at each flicker speed and its second harmonic, averaged over the back-of-head channels.
 4. **Decision**: a half counts as "seen" when its SNR beats a per-person threshold set during calibration (midpoint between "flickering" and "blank" trials).
