@@ -6,15 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   /* Fonts ship with the app (web/fonts), so the page looks right with no internet. */
-  @font-face { font-family: "Chakra Petch"; font-weight: 500; font-display: swap; src: url(/static/fonts/chakra-petch-latin-500-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Chakra Petch"; font-weight: 600; font-display: swap; src: url(/static/fonts/chakra-petch-latin-600-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Chakra Petch"; font-weight: 700; font-display: swap; src: url(/static/fonts/chakra-petch-latin-700-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Manrope"; font-weight: 400; font-display: swap; src: url(/static/fonts/manrope-latin-400-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Manrope"; font-weight: 500; font-display: swap; src: url(/static/fonts/manrope-latin-500-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Manrope"; font-weight: 600; font-display: swap; src: url(/static/fonts/manrope-latin-600-normal.woff2) format("woff2"); }
-  @font-face { font-family: "Manrope"; font-weight: 700; font-display: swap; src: url(/static/fonts/manrope-latin-700-normal.woff2) format("woff2"); }
-  @font-face { font-family: "JetBrains Mono"; font-weight: 400; font-display: swap; src: url(/static/fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2"); }
-  @font-face { font-family: "JetBrains Mono"; font-weight: 600; font-display: swap; src: url(/static/fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Geist"; font-weight: 400; font-display: swap; src: url(/static/fonts/geist-sans-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Geist"; font-weight: 500; font-display: swap; src: url(/static/fonts/geist-sans-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Geist"; font-weight: 600; font-display: swap; src: url(/static/fonts/geist-sans-latin-600-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Geist Mono"; font-weight: 400; font-display: swap; src: url(/static/fonts/geist-mono-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Geist Mono"; font-weight: 500; font-display: swap; src: url(/static/fonts/geist-mono-latin-500-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Instrument Serif"; font-weight: 400; font-display: swap; src: url(/static/fonts/instrument-serif-latin-400-normal.woff2) format("woff2"); }
+
 </style>
 <style>
   /* Neurotech lab: deep-ocean navy, instrument panels, two signal colours that
@@ -22,20 +20,22 @@
      Layout: header strip, three-panel console (head map | live signal | protocol),
      full-screen results view. */
   :root {
-    --bg: #060b1a;
-    --bg2: #0a1328;
-    --panel: #0d1730;
-    --line: rgba(130, 160, 255, 0.16);
-    --line-strong: rgba(130, 160, 255, 0.32);
-    --text: #e6ecff;
-    --muted: #8793bd;
-    --left: #5fe1ff;     /* LEFT stimulus, everywhere */
-    --right: #ffb35c;    /* RIGHT stimulus, everywhere */
-    --brand: #7c9cff;
-    --good: #4be38f; --warn: #ffcc4d; --bad: #ff6b6b;
-    --font-display: "Chakra Petch", "Rajdhani", system-ui, sans-serif;
-    --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --bg: #0D1320;          /* night ward */
+    --bg2: #111827;
+    --panel: #141B2B;
+    --raised: #1B2436;
+    --line: rgba(220, 228, 255, 0.08);
+    --line-strong: rgba(220, 228, 255, 0.16);
+    --text: #EEF1F6;
+    --muted: #8C95A8;
+    --left: #86CFD9;     /* LEFT stimulus, everywhere */
+    --right: #E3B873;    /* RIGHT stimulus, everywhere */
+    --brand: #C9D3E8;
+    --good: #7FD1A4; --warn: #E8C77A; --bad: #E58A8A;
+    --font-display: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --font-body: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
@@ -46,64 +46,64 @@
   #topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 5; background: rgba(6,11,26,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
   #topbar.hidden { display: none; }
   .nav { display: flex; gap: 4px; margin-left: 28px; }
-  .nav button { background: none; border: 0; color: var(--muted); font: 600 12px var(--font-display); letter-spacing: .18em; text-transform: uppercase; padding: 8px 14px; border-radius: 4px; cursor: pointer; }
+  .nav button { background: none; border: 0; color: var(--muted); font: 600 12px var(--font-display); padding: 8px 14px; border-radius: 4px; cursor: pointer; }
   .nav button:hover { color: var(--text); }
-  .nav button.on { color: var(--text); background: rgba(124,156,255,.14); box-shadow: inset 0 -2px 0 var(--brand); }
+  .nav button.on { color: var(--text); background: rgba(201,211,232,.14); box-shadow: inset 0 -2px 0 var(--brand); }
   .lhs { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
   #panel { position: fixed; inset: 0; top: 66px; overflow: auto;
-    background: radial-gradient(1200px 600px at 75% -10%, rgba(124,156,255,.10), transparent 60%),
-                radial-gradient(900px 500px at 0% 110%, rgba(95,225,255,.06), transparent 60%), var(--bg); }
+    background: radial-gradient(1200px 600px at 75% -10%, rgba(201,211,232,.10), transparent 60%),
+                radial-gradient(900px 500px at 0% 110%, rgba(134,207,217,.06), transparent 60%), var(--bg); }
   #panel.hidden { display: none; }
 
   /* About page */
   #about { position: fixed; inset: 0; top: 66px; overflow: auto; display: none; scroll-behavior: smooth;
-           background: radial-gradient(1100px 620px at 80% 0%, rgba(124,156,255,.13), transparent 60%),
-                       radial-gradient(800px 500px at 0% 40%, rgba(95,225,255,.06), transparent 60%), var(--bg); }
+           background: radial-gradient(1100px 620px at 80% 0%, rgba(201,211,232,.13), transparent 60%),
+                       radial-gradient(800px 500px at 0% 40%, rgba(134,207,217,.06), transparent 60%), var(--bg); }
   #about.on { display: block; }
   .ab { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
   .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding: 56px 0 40px; }
-  .kicker { font: 600 12px var(--font-display); letter-spacing: .24em; color: var(--brand); text-transform: uppercase; }
-  .hero h1 { font: 700 54px/1.04 var(--font-display); letter-spacing: .005em; margin: 14px 0 18px; }
+  .kicker { font: 600 12px var(--font-display); color: var(--brand); }
+  .hero h1 { font: 700 54px/1.04 var(--font-display); margin: 14px 0 18px; }
   .hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--left), var(--brand) 55%, var(--right)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lede { font-size: 18px; line-height: 1.6; color: #c3cbec; max-width: 34em; }
+  .lede { font-size: 18px; line-height: 1.6; color: #B9C0CE; max-width: 34em; }
   .cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
   .cta .go { width: auto; margin: 0; padding: 14px 26px; }
   .cta .ghost { flex: 0 0 auto; padding: 14px 20px; }
   .side-brain { width: 100%; height: auto; display: block; }
   .sec { padding: 46px 0; border-top: 1px solid var(--line); }
-  .sec h2 { font: 700 30px var(--font-display); margin: 8px 0 10px; letter-spacing: .01em; }
+  .sec h2 { font: 700 30px var(--font-display); margin: 8px 0 10px; }
   .sec > p.sub2 { color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 46em; margin: 0 0 24px; }
   .stats3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .stat3 { border: 1px solid var(--line); border-radius: 10px; padding: 22px; background: linear-gradient(180deg, rgba(255,255,255,.03), transparent), var(--panel); }
   .stat3 .big { font: 700 46px var(--font-display); line-height: 1; }
-  .stat3 p { color: #c3cbec; font-size: 14.5px; line-height: 1.55; margin: 10px 0 8px; }
+  .stat3 p { color: #B9C0CE; font-size: 14.5px; line-height: 1.55; margin: 10px 0 8px; }
   .stat3 a { color: var(--brand); font-size: 12px; }
   .steps3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .step3 { border: 1px solid var(--line); border-radius: 10px; padding: 22px; background: var(--panel); position: relative; overflow: hidden; }
   .step3 .num { font: 700 13px var(--font-mono); color: var(--brand); }
   .step3 h3 { font: 700 19px var(--font-display); margin: 8px 0 8px; }
-  .step3 p { color: #c3cbec; font-size: 14.5px; line-height: 1.55; margin: 0; }
+  .step3 p { color: #B9C0CE; font-size: 14.5px; line-height: 1.55; margin: 0; }
   .step3 svg { display: block; width: 100%; height: 92px; margin: 4px 0 12px; }
   .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
   .rules ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
   .rules li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; font-size: 15px; line-height: 1.5; color: #c9d2f2; }
   .rules li b { color: var(--text); }
   .rules li i { font: 700 12px var(--font-mono); color: var(--brand); font-style: normal; padding-top: 3px; }
-  .sheet { border: 1px solid var(--line-strong); border-radius: 10px; padding: 20px; background: #0b1430; }
-  .sheet .k { font: 600 11px var(--font-display); letter-spacing: .2em; color: var(--muted); }
+  .sheet { border: 1px solid var(--line-strong); border-radius: 10px; padding: 20px; background: #141B2B; }
+  .sheet .k { font: 600 11px var(--font-display); color: var(--muted); }
   .pill { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--line); margin-top: 10px; font-weight: 700; }
   .pill small { display: block; font-weight: 500; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
   .pill .d { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
   table.cmp { width: 100%; border-collapse: collapse; font-size: 15px; }
   table.cmp th, table.cmp td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  table.cmp th { font: 600 12px var(--font-display); letter-spacing: .16em; color: var(--muted); text-transform: uppercase; }
+  table.cmp th { font: 600 12px var(--font-display); color: var(--muted); }
   table.cmp td:first-child { color: var(--muted); width: 18%; }
   table.cmp td:last-child { color: var(--text); }
   table.cmp tr td:nth-child(2) { color: #aab3d6; }
   .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .note { border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; background: var(--panel); }
-  .note h3 { font: 700 16px var(--font-display); letter-spacing: .06em; margin: 0 0 10px; }
-  .note ul { margin: 0; padding-left: 18px; color: #c3cbec; line-height: 1.65; font-size: 14.5px; }
+  .note h3 { font: 700 16px var(--font-display); margin: 0 0 10px; }
+  .note ul { margin: 0; padding-left: 18px; color: #B9C0CE; line-height: 1.65; font-size: 14.5px; }
   .note a { color: var(--brand); }
   .endcta { text-align: center; padding: 56px 0 72px; }
   .endcta h2 { font: 700 34px var(--font-display); margin: 0 0 18px; }
@@ -118,7 +118,7 @@
   @media (prefers-reduced-motion: reduce) { .pulseL, .pulseR, .tintL, .tintR, .flow { animation: none; } }
 
   header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px 28px; border-bottom: 1px solid var(--line); }
-  .logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); letter-spacing: .12em; }
+  .logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); }
   .logo b { font-size: 20px; font-weight: 700; }
   .logo span { color: var(--muted); font-size: 13px; }
   .logo .tri { width: 0; height: 0; border-left: 14px solid transparent; border-bottom: 14px solid var(--brand); }
@@ -126,12 +126,12 @@
   .status span { border: 1px solid var(--line); padding: 5px 10px; border-radius: 4px; color: var(--muted); white-space: nowrap; }
   .status em { color: var(--text); font-style: normal; }
   .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--bad); margin-right: 6px; vertical-align: 1px; }
-  .live-dot.on { background: var(--good); box-shadow: 0 0 10px var(--good); animation: pulse 1.6s infinite; }
+  .live-dot.on { background: var(--good);  animation: pulse 1.6s infinite; }
   @keyframes pulse { 50% { opacity: .35; } }
 
   .grid { display: grid; grid-template-columns: 300px minmax(0, 1fr) 340px; gap: 16px; padding: 18px 28px 28px; }
   .card { background: linear-gradient(180deg, rgba(255,255,255,.025), transparent 40%), var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; position: relative; }
-  .card h2 { margin: 0 0 12px; font: 600 12px var(--font-display); letter-spacing: .18em; color: var(--muted); text-transform: uppercase; display: flex; justify-content: space-between; }
+  .card h2 { margin: 0 0 12px; font: 600 12px var(--font-display); color: var(--muted); display: flex; justify-content: space-between; }
   .card h2 small { font: 11px var(--font-mono); letter-spacing: 0; text-transform: none; }
 
   /* Head map */
@@ -155,7 +155,7 @@
   .field input:focus, .proto input:focus { outline: none; border-color: var(--brand); }
   .proto { list-style: none; margin: 14px 0 0; padding: 0; counter-reset: s; }
   .proto li { display: grid; grid-template-columns: 34px 1fr; gap: 6px; padding: 10px 0; border-top: 1px solid var(--line); }
-  .proto .n { font: 600 13px var(--font-display); color: var(--brand); letter-spacing: .08em; }
+  .proto .n { font: 600 13px var(--font-display); color: var(--brand); }
   .proto .t { font-weight: 700; font-size: 14px; }
   .proto .d { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin-top: 2px; }
   .proto input { width: 52px; padding: 3px 6px; font: 600 12px var(--font-mono); margin: 0 4px; }
@@ -165,12 +165,12 @@
   .modes .go { margin-top: 0; padding: 13px 8px; font-size: 13px; }
   .go.ec { background: linear-gradient(180deg, #6b4fc4, #523aa0); border-color: #9a82ff; box-shadow: 0 8px 30px rgba(130,100,240,.25); }
   .go.alt { background: linear-gradient(180deg, #1f6f86, #155566); border-color: #2fa6c4; box-shadow: 0 8px 30px rgba(47,166,196,.25); }
-  .yn { position: absolute; top: 64px; font: 700 34px var(--font-display); letter-spacing: .14em; padding: 6px 18px; border-radius: 6px; background: rgba(6,11,26,.85); display: none; }
+  .yn { position: absolute; top: 44px; z-index: 2; font: 700 24px var(--font-display); padding: 4px 18px; border-radius: 999px; background: #070c1c; box-shadow: 0 0 24px currentColor; display: none; }
   .yn.y { left: 25%; transform: translateX(-50%); color: var(--left); border: 1px solid var(--left); }
   .yn.n { left: 75%; transform: translateX(-50%); color: var(--right); border: 1px solid var(--right); }
   .go { width: 100%; margin-top: 12px; padding: 15px; border-radius: 6px; border: 1px solid var(--brand); cursor: pointer;
-        font: 700 15px var(--font-display); letter-spacing: .16em; text-transform: uppercase; color: #fff;
-        background: linear-gradient(180deg, #5878f0, #3c57c9); box-shadow: 0 0 0 1px rgba(124,156,255,.2), 0 8px 30px rgba(92,120,240,.35); }
+        font: 700 15px var(--font-display); color: #fff;
+        background: linear-gradient(180deg, #5878f0, #3c57c9); box-shadow: 0 0 0 1px rgba(201,211,232,.2), 0 8px 30px rgba(92,120,240,.35); }
   .go:hover:not(:disabled) { filter: brightness(1.08); }
   .sub { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
   .ghost { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--line-strong); background: transparent; color: var(--text); font: 600 13px var(--font-body); cursor: pointer; }
@@ -187,36 +187,43 @@
   .abort { max-width: 720px; margin: 12vh auto 0; text-align: center; }
   .abort .verdict { font-size: 30px; }
   .abort .res-actions { justify-content: center; }
-  .planline { font: 600 12px var(--font-mono); color: var(--muted); letter-spacing: .04em; margin-top: 6px; }
+  .planline { font: 600 12px var(--font-mono); color: var(--muted); margin-top: 6px; }
   .pnote { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 4px; }
 
   .why { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .stat .big { font: 700 40px var(--font-display); letter-spacing: .02em; }
+  .stat .big { font: 700 40px var(--font-display); }
   .stat p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
   .stat a { color: var(--brand); font-size: 12px; }
 
   /* Results view */
-  #results { position: fixed; inset: 0; overflow: auto; display: none; background: radial-gradient(900px 500px at 50% 0%, rgba(124,156,255,.12), transparent 60%), var(--bg); }
+  #results { position: fixed; inset: 0; overflow: auto; display: none; background: radial-gradient(900px 500px at 50% 0%, rgba(201,211,232,.12), transparent 60%), var(--bg); }
   #results.on { display: block; }
   .res { max-width: 1040px; margin: 0 auto; padding: 32px 28px 48px; }
   .res-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .res-top .k { font: 600 12px var(--font-display); letter-spacing: .2em; color: var(--muted); }
+  .res-top .k { font: 600 12px var(--font-display); color: var(--muted); }
   .res-main { display: grid; grid-template-columns: 340px 1fr; gap: 24px; margin-top: 20px; align-items: start; }
   .ring { position: relative; width: 300px; height: 300px; margin: 0 auto; }
   .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
   .ring .c { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
   .ring .c b { font: 700 64px var(--font-display); line-height: 1; }
   .ring .c span { color: var(--muted); font-size: 14px; margin-top: 6px; }
-  .verdict { font: 700 26px var(--font-display); letter-spacing: .02em; margin: 0 0 6px; }
+  .verdict { font: 700 26px var(--font-display); margin: 0 0 6px; }
   .verdict.good { color: var(--good); } .verdict.warn { color: var(--warn); } .verdict.bad { color: var(--bad); }
   .kv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
   .kv > div { border: 1px solid var(--line); border-radius: 6px; padding: 12px; }
-  .kv .k { font: 600 11px var(--font-display); letter-spacing: .16em; color: var(--muted); text-transform: uppercase; }
+  .kv .k { font: 600 11px var(--font-display); color: var(--muted); }
   .kv .v { font: 600 20px var(--font-mono); margin-top: 4px; }
+  .tchart { margin-top: 16px; background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 6px; }
+  .tchart svg { width: 100%; height: auto; display: block; }
+  .tchart .ax { font: 600 11px var(--font-mono); fill: #8f9bc4; }
+  .tc-h { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font: 600 11px var(--font-display); color: var(--muted); }
+  .tc-h .lg { font-family: var(--font-body); text-transform: none; }
+  .tc-h .lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin: 0 4px 0 10px; vertical-align: -1px; }
+  .tc-h .lg i.hol { border: 1.5px dashed var(--muted); }
   .seq { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
   .seq div { width: 46px; border-radius: 6px; padding: 7px 0 5px; text-align: center; font: 600 13px var(--font-mono); border: 1px solid var(--line); }
-  .seq div.L { border-color: rgba(95,225,255,.55); color: var(--left); }
-  .seq div.R { border-color: rgba(255,179,92,.55); color: var(--right); }
+  .seq div.L { border-color: rgba(134,207,217,.55); color: var(--left); }
+  .seq div.R { border-color: rgba(227,184,115,.55); color: var(--right); }
   .seq div.miss { opacity: .45; border-style: dashed; }
   .seq small { display: block; font-size: 11px; color: var(--muted); }
   .interp { line-height: 1.6; color: #c9d2f2; margin: 16px 0 6px; }
@@ -231,25 +238,25 @@
   /* Run HUD */
   #hud { position: fixed; inset: 0; pointer-events: none; display: none; }
   #hud.on { display: block; }
-  .hbar { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 16px; padding: 10px 18px; background: rgba(6,11,26,.92); border-bottom: 1px solid var(--line-strong); font: 600 13px var(--font-display); letter-spacing: .14em; color: var(--text); }
+  .hbar { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 16px; padding: 10px 18px; background: rgba(6,11,26,.92); border-bottom: 1px solid var(--line-strong); font: 600 13px var(--font-display); color: var(--text); }
   .segs { display: flex; gap: 3px; flex: 1; }
   .segs i { flex: 1; height: 6px; background: rgba(255,255,255,.12); border-radius: 1px; }
-  .segs i.done { background: var(--brand); box-shadow: 0 0 8px rgba(124,156,255,.6); }
-  .segs i.now { background: rgba(124,156,255,.55); }
-  .hcmd { position: absolute; top: 46%; left: 50%; transform: translate(-50%, -50%); background: rgba(6,11,26,.94); border: 1px solid var(--line-strong); border-radius: 8px; padding: 20px 34px; text-align: center; display: none; }
-  .hcmd b { font: 700 34px var(--font-display); letter-spacing: .06em; }
+  .segs i.done { background: var(--brand); box-shadow: 0 0 8px rgba(201,211,232,.6); }
+  .segs i.now { background: rgba(201,211,232,.55); }
+  .hcmd { position: absolute; top: 46%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(180deg, rgba(20,30,62,.97), rgba(8,13,30,.97)); border: 1px solid var(--line-strong); border-radius: 16px; padding: 26px 44px; text-align: center; display: none; box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(201,211,232,.15); min-width: 360px; max-width: 70vw; }
+  .hcmd b { font: 700 40px var(--font-display); display: block; }
   .hcmd b.L { color: var(--left); } .hcmd b.R { color: var(--right); }
-  .hcmd small { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; }
-  .hmeter { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); width: min(560px, 92vw); background: rgba(6,11,26,.94); border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 14px; display: none; }
-  .hmeter .t { display: flex; justify-content: space-between; font: 600 11px var(--font-display); letter-spacing: .16em; color: var(--muted); }
+  .hcmd small { display: block; margin-top: 10px; color: #aab3d6; font-size: 15px; }
+  .hmeter { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); width: min(620px, 92vw); background: rgba(10,16,36,.95); border: 1px solid var(--line-strong); border-radius: 12px; padding: 12px 16px; display: none; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+  .hmeter .t { display: flex; justify-content: space-between; font: 600 11px var(--font-display); color: var(--muted); }
   .lr { display: grid; grid-template-columns: 1fr 1fr; height: 12px; margin-top: 8px; }
   .lr .l { display: flex; justify-content: flex-end; border-right: 2px solid var(--text); }
   .lr i { display: block; height: 100%; width: 0; transition: width .5s; }
-  .lr .l i { background: var(--left); box-shadow: 0 0 10px var(--left); border-radius: 2px 0 0 2px; }
-  .lr .r i { background: var(--right); box-shadow: 0 0 10px var(--right); border-radius: 0 2px 2px 0; }
+  .lr .l i { background: var(--left);  border-radius: 2px 0 0 2px; }
+  .lr .r i { background: var(--right);  border-radius: 0 2px 2px 0; }
   .hmeter .v { display: flex; justify-content: space-between; font: 12px var(--font-mono); margin-top: 5px; }
   .hmeter .v .a { color: var(--left); } .hmeter .v .b { color: var(--right); }
-  .hmsg { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(6,11,26,.94); border: 1px solid var(--line-strong); border-radius: 8px; padding: 10px 16px; font-size: 14px; display: none; white-space: pre-line; text-align: center; }
+  .hmsg { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(10,16,36,.95); border: 1px solid var(--line-strong); border-radius: 12px; padding: 12px 20px; font-size: 15px; display: none; white-space: pre-line; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
 
   /* Printable report (white, hidden on screen) */
   #print { display: none; }
@@ -275,18 +282,18 @@
   .gstep span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
   .gstep.done i { background: var(--good); border-color: var(--good); color: #06210f; }
   .gstep.warn i { background: var(--warn); border-color: var(--warn); color: #2a1f00; }
-  .gstep.now { border-color: rgba(124,156,255,.6); box-shadow: 0 0 0 1px rgba(124,156,255,.25); }
+  .gstep.now { border-color: rgba(201,211,232,.6); box-shadow: 0 0 0 1px rgba(201,211,232,.25); }
   .what { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin: -4px 0 10px; }
   .blk { border-top: 1px solid var(--line); padding: 12px 0 10px; }
   .blk:first-of-type { border-top: 0; padding-top: 0; }
-  .bh { font: 600 11px var(--font-display); letter-spacing: .16em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+  .bh { font: 600 11px var(--font-display); color: var(--muted); margin-bottom: 10px; }
   .bh span { text-transform: none; letter-spacing: 0; font: 11.5px var(--font-body); }
   .hint { font-size: 12px; color: var(--muted); line-height: 1.45; margin: -2px 0 10px; }
   .tbtn { display: block; width: 100%; text-align: left; margin: 0 0 8px; padding: 11px 14px; border-radius: 8px; cursor: pointer; color: var(--text);
           border: 1px solid var(--line-strong); background: rgba(255,255,255,.03); font: 12.5px var(--font-body); line-height: 1.4; }
-  .tbtn b { display: block; font: 700 15px var(--font-display); letter-spacing: .04em; margin-bottom: 2px; }
+  .tbtn b { display: block; font: 700 15px var(--font-display); margin-bottom: 2px; }
   .tbtn span { color: var(--muted); }
-  .tbtn:hover:not(:disabled) { background: rgba(124,156,255,.08); }
+  .tbtn:hover:not(:disabled) { background: rgba(201,211,232,.08); }
   .tbtn.chk { border-left: 4px solid var(--good); } .tbtn.cmd { border-left: 4px solid var(--brand); }
   .tbtn.ynt { border-left: 4px solid #2fa6c4; } .tbtn.ec { border-left: 4px solid #9a82ff; }
   /* instructions before a test */
@@ -297,14 +304,14 @@
   .itop h2 { font: 700 34px var(--font-display); margin: 6px 0 4px; }
   .itime { color: var(--muted); font-size: 14px; }
   .icols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; margin-top: 22px; }
-  .ih { font: 600 12px var(--font-display); letter-spacing: .16em; color: var(--brand); text-transform: uppercase; margin-bottom: 12px; }
+  .ih { font: 600 12px var(--font-display); color: var(--brand); margin-bottom: 12px; }
   #iSubject { margin: 0; padding-left: 22px; display: grid; gap: 10px; font-size: 17px; line-height: 1.5; color: var(--text); }
   #iSubject li::marker { color: var(--brand); font-weight: 700; }
   .ichk { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
   .ichk label { display: grid; grid-template-columns: 22px 1fr; gap: 8px; font-size: 14.5px; line-height: 1.45; color: #c9d2f2; cursor: pointer; }
   .ichk input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--brand); }
   .ichk .must { color: var(--warn); }
-  .iwatch { margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 13.5px; line-height: 1.5; color: #c9d2f2; background: #0b1430; }
+  .iwatch { margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 13.5px; line-height: 1.5; color: #c9d2f2; background: #141B2B; }
   .iwatch b { color: var(--text); }
   .ifoot { display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 24px; border-top: 1px solid var(--line); padding-top: 18px; }
   .ifoot .go { width: auto; margin: 0; padding: 14px 30px; }
@@ -313,15 +320,140 @@
   @media (prefers-reduced-motion: reduce) { .live-dot.on { animation: none; } .lr i { transition: none; } }
   .brainkey { display: flex; justify-content: space-between; gap: 8px; font: 11.5px var(--font-mono); color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
   .brainkey b.l { color: var(--left); font-weight: 600; } .brainkey b.r { color: var(--right); font-weight: 600; }
+  /* ---- premium pass ----
+     Night-ward instrument: one quiet surface color, hairlines, a serif only for the
+     big moments (headline, verdict, the score). Everything else is calm Geist. */
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-feature-settings: "ss01", "cv11"; }
+  #panel, #about, #results { background: var(--bg); }
+  #topbar { background: rgba(13,19,32,.82); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); }
+  header.top { padding: 14px 32px; border-bottom: 1px solid var(--line); }
+  .logo { gap: 14px; font-family: var(--font-body); }
+  .logo b { font: 400 26px/1 var(--font-serif); letter-spacing: -.01em; }
+  .logo span { font-size: 13px; color: var(--muted); padding-left: 14px; border-left: 1px solid var(--line-strong); }
+  .nav { margin-left: 36px; gap: 2px; }
+  .nav button { font: 500 14px var(--font-body); padding: 8px 14px; border-radius: 999px; color: var(--muted); }
+  .nav button.on { background: rgba(238,241,246,.08); box-shadow: none; color: var(--text); }
+  .status { font: 12px var(--font-mono); gap: 6px; }
+  .status span { border: 0; background: rgba(238,241,246,.04); border-radius: 999px; padding: 6px 12px; }
+  .live-dot.on { box-shadow: none; }
+
+  .grid { gap: 20px; padding: 20px 32px 40px; }
+  .guide { gap: 12px; padding: 24px 32px 0; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 22px 24px; box-shadow: none; }
+  .card h2 { font: 500 15px var(--font-body); color: var(--text); margin-bottom: 14px; display: flex; align-items: baseline; gap: 12px; }
+  .card h2 small { margin-left: auto; color: var(--muted); font: 12px var(--font-mono); }
+  .what, .hint { font-size: 13px; color: var(--muted); }
+  .bh, .ih, .kicker, .kv .k, .tc-h, .hmeter .t, .res-top .k, .sheet .k, table.cmp th, .stat3 a { text-transform: none; letter-spacing: 0; }
+  .bh { font: 500 13px var(--font-body); color: var(--text); }
+  .bh span { color: var(--muted); }
+  .gstep { border-radius: 16px; background: var(--panel); border-color: var(--line); padding: 14px 16px; }
+  .gstep i { font: 500 13px var(--font-body); border-width: 1px; }
+  .gstep b { font: 500 14px var(--font-body); }
+  .gstep.done i { background: transparent; color: var(--good); border-color: rgba(127,209,164,.5); }
+  .gstep.warn i { background: transparent; color: var(--warn); border-color: rgba(232,199,122,.5); }
+  .gstep.now { border-color: rgba(238,241,246,.28); box-shadow: none; background: var(--raised); }
+
+  .field input, .proto input, .qs { background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px; font-family: var(--font-body); }
+  .qs { font-family: var(--font-mono); }
+  .field input:focus, .proto input:focus, .qs:focus { border-color: rgba(238,241,246,.5); }
+  :focus-visible { outline: 2px solid rgba(238,241,246,.7); outline-offset: 2px; }
+
+  .go, .go.ec, .go.alt { background: var(--text); color: var(--bg); border: 0; border-radius: 999px; box-shadow: none; font: 600 15px var(--font-body); letter-spacing: 0; text-transform: none; padding: 14px 26px; }
+  .go:hover:not(:disabled) { background: #fff; filter: none; }
+  .ghost { border-radius: 999px; border-color: var(--line-strong); font: 500 14px var(--font-body); padding: 12px 20px; }
+  .ghost:hover:not(:disabled) { background: rgba(238,241,246,.06); }
+  .tbtn { border-radius: 14px; border: 1px solid var(--line); background: var(--bg); padding: 14px 16px; margin-bottom: 8px; font-size: 13px; }
+  .tbtn.chk, .tbtn.cmd, .tbtn.ynt, .tbtn.ec { border-left: 1px solid var(--line); }
+  .tbtn b { font: 500 15px var(--font-body); display: flex; align-items: center; gap: 10px; margin-bottom: 3px; }
+  .tbtn b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; background: var(--muted); }
+  .tbtn.chk b::before { background: var(--good); } .tbtn.cmd b::before { background: var(--left); }
+  .tbtn.ynt b::before { background: var(--right); } .tbtn.ec b::before { background: #B8A6E8; }
+  .tbtn span { display: block; padding-left: 17px; }
+  .tbtn:hover:not(:disabled) { background: var(--raised); border-color: var(--line-strong); }
+  .caution { border-left-width: 1px; }
+  .barinfo, .sitting { font-family: var(--font-body); }
+
+  /* about */
+  .hero { padding: 72px 0 56px; gap: 56px; }
+  .kicker { font: 500 13px var(--font-body); color: var(--muted); }
+  .hero h1 { font: 400 72px/1 var(--font-serif); letter-spacing: -.015em; margin: 18px 0 24px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.6; color: #B9C0CE; }
+  .sec { padding: 72px 0; border-top: 1px solid var(--line); }
+  .sec h2 { font: 400 46px/1.05 var(--font-serif); letter-spacing: -.01em; margin: 0 0 14px; text-wrap: balance; }
+  .sec > p.sub2 { font-size: 17px; color: #A3ABBC; max-width: 40em; margin-bottom: 36px; }
+  .stat3, .step3, .note, .sheet { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 28px; box-shadow: none; }
+  .stat3 .big { font: 400 64px/1 var(--font-serif); color: var(--text); letter-spacing: -.01em; }
+  .stat3 p, .step3 p, .note ul, .rules li { color: #B9C0CE; }
+  .step3 .num { font: 500 13px var(--font-body); color: var(--muted); }
+  .step3 h3, .note h3 { font: 500 19px var(--font-body); letter-spacing: 0; }
+  .sheet .k { font: 500 14px var(--font-body); color: var(--text); }
+  .pill { border-radius: 14px; background: var(--bg); }
+  .rules li i { font: 500 13px var(--font-body); color: var(--muted); }
+  table.cmp th { font: 500 13px var(--font-body); }
+  .endcta { padding: 96px 0 112px; }
+  .endcta h2 { font: 400 52px/1.05 var(--font-serif); }
+
+  /* results */
+  .res { max-width: 1080px; padding: 48px 32px 64px; }
+  .res-top .k { font: 500 14px var(--font-body); color: var(--muted); }
+  .planline { font: 14px var(--font-body); color: var(--muted); margin-top: 4px; }
+  .res-main { grid-template-columns: 340px 1fr; gap: 48px; margin-top: 36px; }
+  .ring .c b { font: 400 92px/1 var(--font-serif); letter-spacing: -.02em; }
+  .ring .c span { font-size: 14px; }
+  .verdict, .res-main .verdict, .abort .verdict { font: 400 48px/1.05 var(--font-serif); letter-spacing: -.01em; margin-bottom: 10px; }
+  .kv { gap: 12px; margin: 24px 0 16px; }
+  .kv > div { border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; background: var(--panel); }
+  .kv .k { font: 500 13px var(--font-body); color: var(--muted); }
+  .kv .v { font: 500 22px var(--font-body); font-variant-numeric: tabular-nums; margin-top: 6px; }
+  .tchart { background: var(--panel); border-radius: 20px; padding: 18px 20px 10px; border-color: var(--line); }
+  .tc-h { font: 500 14px var(--font-body); color: var(--text); }
+  .tc-h .lg { color: var(--muted); font-size: 13px; }
+  .tchart .ax { font: 11px var(--font-mono); fill: #7D8698; }
+  .seq div { border-radius: 10px; font: 500 12px var(--font-body); padding: 8px 0 6px; width: 50px; background: var(--panel); }
+  .seq div.L { border-color: rgba(134,207,217,.4); } .seq div.R { border-color: rgba(227,184,115,.4); }
+  .interp { font-size: 17px; color: var(--text); }
+  table.dat { font: 12px var(--font-mono); }
+  #results details summary { cursor: pointer; font-size: 13px; }
+
+  /* test screen HUD */
+  .hbar { background: rgba(13,19,32,.9); border-bottom: 1px solid var(--line); font: 500 14px var(--font-body); padding: 12px 22px; gap: 20px; }
+  #hCount { color: var(--muted); font-variant-numeric: tabular-nums; white-space: pre; }
+  .segs { gap: 4px; } .segs i { height: 4px; border-radius: 999px; background: rgba(238,241,246,.1); }
+  .segs i.done { background: var(--text); box-shadow: none; } .segs i.now { background: rgba(238,241,246,.45); }
+  .hcmd { background: var(--panel); border: 1px solid var(--line-strong); border-radius: 24px; padding: 32px 52px; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .hcmd b { font: 400 54px/1.05 var(--font-serif); letter-spacing: -.01em; text-wrap: balance; }
+  .hcmd small { font-size: 15px; color: var(--muted); margin-top: 12px; }
+  .hmeter, .hmsg { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+  .hmeter .t { font: 12px var(--font-body); }
+  .lr { height: 8px; } .lr .l { border-right: 1px solid var(--text); } .lr .l i { border-radius: 999px 0 0 999px; } .lr .r i { border-radius: 0 999px 999px 0; }
+  .yn { font: 500 18px var(--font-body); letter-spacing: 0; padding: 6px 20px; background: var(--bg); box-shadow: none; }
+
+  /* intro */
+  #intro { background: rgba(9,13,22,.88); backdrop-filter: blur(10px); }
+  .ibox { background: var(--panel); border: 1px solid var(--line-strong); border-radius: 28px; padding: 40px 44px; }
+  .itop h2 { font: 400 52px/1.05 var(--font-serif); letter-spacing: -.01em; }
+  .ih { font: 500 14px var(--font-body); color: var(--text); }
+  #iSubject li::marker { color: var(--muted); font-weight: 500; }
+  .ichk input { accent-color: var(--text); }
+  .iwatch { background: var(--bg); border-radius: 14px; }
+  .brainkey, .legend { font-family: var(--font-body); }
+  @media (max-width: 980px) { .hero h1 { font-size: 48px; } .sec h2 { font-size: 36px; } }
+  canvas#c { background: var(--bg); }
+  .rules li { grid-template-columns: 18px 1fr; } .rules li i { font-size: 0; } .rules li i::before { content: ""; display: block; width: 5px; height: 5px; border-radius: 50%; background: var(--muted); margin-top: 6px; }
+  .seq { gap: 5px; } .seq div { width: 44px; }
+  .tchart .ax { font-family: var(--font-body); }
+  .card h2 small { font: 13px var(--font-body); }
+  .status { font-family: var(--font-body); font-size: 12.5px; } .status em { font-variant-numeric: tabular-nums; }
+  .freqtags { font-family: var(--font-body); }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 
 <div id="hud" aria-live="polite">
-  <div class="hbar"><span id="hStep">STEP 01 // VISUAL RESPONSE</span><div class="segs" id="hSegs"></div><span id="hCount"></span></div>
+  <div class="hbar"><span id="hStep"></span><div class="segs" id="hSegs"></div><span id="hCount"></span></div>
   <div class="hcmd" id="hCmd"></div>
-  <div class="yn y" id="ynY">◀ YES</div><div class="yn n" id="ynN">NO ▶</div>
+  <div class="yn y" id="ynY">Yes</div><div class="yn n" id="ynN">No</div>
   <div class="hmeter" id="hMeter">
     <div class="t"><span>Left stimulus</span><span>Visual response · live</span><span>Right stimulus</span></div>
     <div class="lr"><div class="l"><i id="mL"></i></div><div class="r"><i id="mR"></i></div></div>
@@ -332,8 +464,8 @@
 
 <div id="topbar">
   <header class="top">
-    <div class="lhs"><div class="logo"><i class="tri"></i><b>STILLHERE</b><span>/ NEURAL AWARENESS</span></div>
-      <nav class="nav"><button id="navAbout" class="on">1 · About</button><button id="navDemo">2 · Live demo</button></nav></div>
+    <div class="lhs"><div class="logo"><b>StillHere</b><span>Bedside awareness check</span></div>
+      <nav class="nav"><button id="navAbout" class="on">About</button><button id="navDemo">Live demo</button></nav></div>
     <div class="status">
       <span><i class="live-dot" id="liveDot"></i><em id="srcName">Not connected</em></span>
       <span>EEG <em id="chInfo">-</em></span>
@@ -346,7 +478,7 @@
   <section class="hero">
     <div>
       <div class="kicker">USF BCI Build Sprint 2026 · Biotech track</div>
-      <h1>Some patients who seem unresponsive <em>might still be aware.</em></h1>
+      <h1>Some patients who seem unresponsive might still be aware.</h1>
       <p class="lede">The usual bedside checks ask a patient to move. We wanted to see if a laptop screen and a 4-sensor EEG headset could check whether someone follows a simple instruction without moving at all. If the signal isn't good enough, it doesn't give a score.</p>
       <div class="cta"><button class="go" data-go="home">Open the live demo</button><button class="ghost" data-jump="how">How it works</button></div>
     </div>
@@ -354,7 +486,6 @@
   </section>
 
   <section class="sec">
-    <div class="kicker">The problem</div>
     <h2>Aware inside, unable to show it.</h2>
     <p class="sub2">After a stroke, a brain injury or a cardiac arrest, some patients have their eyes open but don't respond to anything. Bedside tests need some kind of movement, so if someone is aware but can't move, they look the same as someone who isn't.</p>
     <div class="stats3">
@@ -365,18 +496,17 @@
   </section>
 
   <section class="sec" id="how">
-    <div class="kicker">How it works</div>
     <h2>How a test runs</h2>
     <p class="sub2">When you look at something flickering, the visual part of your brain (at the back of the head) picks up the same rhythm. If you pay attention to one side, that side's rhythm gets a bit stronger, even if your eyes don't move. That's what we measure.</p>
     <div class="steps3">
       <div class="step3"><span class="num">01</span>
-        <svg viewBox="0 0 300 92"><rect x="40" y="10" width="220" height="70" rx="6" fill="#0a1328" stroke="rgba(130,160,255,.3)"/><rect class="pulseL" x="48" y="18" width="98" height="54" rx="3" fill="#5fe1ff" opacity=".6"/><rect class="pulseR" x="154" y="18" width="98" height="54" rx="3" fill="#ffb35c" opacity=".6"/><circle cx="150" cy="45" r="5" fill="#e00000"/></svg>
+        <svg viewBox="0 0 300 92"><rect x="40" y="10" width="220" height="70" rx="6" fill="#141B2B" stroke="rgba(220,228,255,.3)"/><rect class="pulseL" x="48" y="18" width="98" height="54" rx="3" fill="#86CFD9" opacity=".6"/><rect class="pulseR" x="154" y="18" width="98" height="54" rx="3" fill="#E3B873" opacity=".6"/><circle cx="150" cy="45" r="5" fill="#e00000"/></svg>
         <h3>1. Check the signal</h3><p>Both halves flicker (8.57 Hz and 12 Hz). We need to see both of them in the EEG. If we can't, the test stops there and no score is shown.</p></div>
       <div class="step3"><span class="num">02</span>
-        <svg viewBox="0 0 300 92"><rect x="40" y="10" width="220" height="70" rx="6" fill="#0a1328" stroke="rgba(130,160,255,.3)"/><rect x="48" y="18" width="98" height="54" rx="3" fill="#5fe1ff" opacity=".85"/><rect x="154" y="18" width="98" height="54" rx="3" fill="#ffb35c" opacity=".2"/><circle cx="150" cy="45" r="5" fill="#e00000"/><text x="97" y="50" text-anchor="middle" font-family="Chakra Petch, sans-serif" font-size="14" font-weight="700" fill="#060b1a">◀ FOCUS</text></svg>
+        <svg viewBox="0 0 300 92"><rect x="40" y="10" width="220" height="70" rx="6" fill="#141B2B" stroke="rgba(220,228,255,.3)"/><rect x="48" y="18" width="98" height="54" rx="3" fill="#86CFD9" opacity=".85"/><rect x="154" y="18" width="98" height="54" rx="3" fill="#E3B873" opacity=".2"/><circle cx="150" cy="45" r="5" fill="#e00000"/><text x="97" y="50" text-anchor="middle" font-family="Geist, sans-serif" font-size="13" font-weight="600" fill="#0D1320">Focus</text></svg>
         <h3>2. Give commands</h3><p>A voice says "focus on the left side" or "right side", 12 times in random order (6 each). Eyes stay on the dot. The EEG is used to guess which side they focused on.</p></div>
       <div class="step3"><span class="num">03</span>
-        <svg viewBox="0 0 300 92"><rect x="70" y="6" width="160" height="80" rx="6" fill="#f4f6ff"/><rect x="84" y="18" width="90" height="7" rx="2" fill="#1b2340"/><rect x="84" y="32" width="132" height="4" rx="2" fill="#9aa3c7"/><rect x="84" y="42" width="120" height="4" rx="2" fill="#9aa3c7"/><rect x="84" y="56" width="104" height="14" rx="3" fill="#7c9cff"/><text x="136" y="66.5" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" font-weight="700" fill="#fff">Pass 1 of 2</text></svg>
+        <svg viewBox="0 0 300 92"><rect x="70" y="6" width="160" height="80" rx="6" fill="#f4f6ff"/><rect x="84" y="18" width="90" height="7" rx="2" fill="#1b2340"/><rect x="84" y="32" width="132" height="4" rx="2" fill="#9aa3c7"/><rect x="84" y="42" width="120" height="4" rx="2" fill="#9aa3c7"/><rect x="84" y="56" width="104" height="14" rx="3" fill="#C9D3E8"/><text x="136" y="66.5" text-anchor="middle" font-family="Geist, sans-serif" font-size="9" font-weight="600" fill="#0D1320">Pass 1 of 2</text></svg>
         <h3>3. Score it</h3><p>They need 10 out of 12 to pass. One pass just means "test again later". It only suggests a referral after two passes in a row, at least 12 hours apart.</p></div>
     </div>
   
@@ -387,7 +517,6 @@
   </section>
 
   <section class="sec">
-    <div class="kicker">Rules</div>
     <h2>Rules we added so one lucky run doesn't mean much</h2>
     <div class="rules">
       <ul>
@@ -397,7 +526,7 @@
         <li><i>04</i><span><b>All runs show up on the report,</b> including failed and stopped ones.</span></li>
         <li><i>05</i><span><b>It never says "conscious" or "unconscious".</b> A failed test doesn't mean nobody is there.</span></li>
       </ul>
-      <div class="sheet"><div class="k">POSSIBLE RESULTS</div>
+      <div class="sheet"><div class="k">Possible results</div>
         <div class="pill"><i class="d" style="background:var(--brand)"></i><span>Pass 1 of 2: repeat later.<small>Passed once. Needs another run.</small></span></div>
         <div class="pill"><i class="d" style="background:var(--good)"></i><span>Refer for full assessment.<small>Passed twice in a row.</small></span></div>
         <div class="pill"><i class="d" style="background:var(--muted)"></i><span>No conclusion.<small>Didn't pass. Doesn't rule anything out.</small></span></div>
@@ -407,7 +536,6 @@
   </section>
 
   <section class="sec">
-    <div class="kicker">FAQ</div>
     <h2>Isn't this just an SSVEP speller?</h2>
     <p class="sub2">It uses the same kind of brain signal, but it's used for something different.</p>
     <table class="cmp">
@@ -437,7 +565,6 @@
   </section>
 
   <section class="sec" id="use">
-    <div class="kicker">Using this app</div>
     <h2>How to run it, in 4 steps</h2>
     <div class="steps3" style="grid-template-columns:repeat(4,1fr)">
       <div class="step3"><span class="num">1</span><h3>Put the headset on</h3><p>Sensors on the back of the head, hair parted under each one. The README explains how to connect it.</p></div>
@@ -594,22 +721,72 @@ Do cars grow on trees? | no</textarea>
     g.fillStyle = `rgb(${hi},${hi},${hi})`; g.fillRect(0, 0, 2 * s, 2 * s); g.fillStyle = `rgb(${lo},${lo},${lo})`; g.fillRect(0, 0, s, s); g.fillRect(s, s, s, s);
     return (tiles[key] = ctx.createPattern(t, 'repeat'));
   }
-  function drawHalf(x, w, c, on) { ctx.fillStyle = c > 0 && on ? tile(c) : '#808080'; ctx.fillRect(x, 0, w, cv.height); }
-  function drawFixation(now) {
-    const cx = cv.width / 2, cy = cv.height / 2, r = 9 * devicePixelRatio;
-    ctx.fillStyle = '#808080'; ctx.fillRect(cx - 4 * r, 0, 8 * r, cv.height);
+  // Test screen layout: dark room, two rounded flicker panels with colored frames,
+  // fixation dot in the gap. Only the inside of the panels changes from frame to
+  // frame (checkerboard <-> gray, same average brightness). The rest is drawn once.
+  let bgCanvas = null, bgKey = '';
+  if (document.fonts) document.fonts.ready.then(() => { bgKey = ''; });
+  function panelRects() {
+    const W = cv.width, H = cv.height, d = devicePixelRatio;
+    const top = 74 * d, bottom = H - 150 * d, m = W * 0.035, gap = W * 0.07;
+    const w = (W - 2 * m - gap) / 2;
+    return { L: [m, top, w, bottom - top], R: [m + w + gap, top, w, bottom - top], r: 22 * d };
+  }
+  function buildBg(ec) {
+    const W = cv.width, H = cv.height, d = devicePixelRatio, key = `${W}x${H}:${ec}:${freqs.left.toFixed(2)}:${trial && trial.mode}`;
+    if (bgCanvas && bgKey === key) return bgCanvas;
+    bgCanvas = bgCanvas || document.createElement('canvas'); bgCanvas.width = W; bgCanvas.height = H; bgKey = key;
+    const g = bgCanvas.getContext('2d');
+    g.fillStyle = '#0D1320'; g.fillRect(0, 0, W, H);
+    if (ec) {
+      const cx = W / 2, cy = H / 2, rg = g.createRadialGradient(cx, cy, 0, cx, cy, 220 * d);
+      rg.addColorStop(0, 'rgba(184,166,232,.10)'); rg.addColorStop(1, 'rgba(184,166,232,0)'); g.fillStyle = rg; g.fillRect(0, 0, W, H);
+      g.font = `400 ${44 * d}px "Instrument Serif", Georgia, serif`; g.fillStyle = '#EEF1F6'; g.textAlign = 'center';
+      g.fillText('Eyes closed', cx, cy + 14 * d);
+      g.font = `400 ${15 * d}px Geist, sans-serif`; g.fillStyle = '#8C95A8';
+      g.fillText('Nothing on screen during this test. Listen for the next instruction.', cx, cy + 50 * d);
+      return bgCanvas;
+    }
+    const P = panelRects(), yn = trial && trial.mode === 'answers-step2';
+    [['L', '#86CFD9', yn ? 'Yes' : 'Left', freqs.left], ['R', '#E3B873', yn ? 'No' : 'Right', freqs.right]].forEach(([k2, col, lab, f]) => {
+      const [x, y, w, h] = P[k2];
+      g.strokeStyle = col; g.globalAlpha = .55; g.lineWidth = 1.5 * d;
+      g.beginPath(); g.roundRect(x - 8 * d, y - 8 * d, w + 16 * d, h + 16 * d, P.r + 8 * d); g.stroke(); g.globalAlpha = 1;
+      g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      g.font = `500 ${16 * d}px Geist, sans-serif`; g.fillStyle = '#EEF1F6';
+      const lw = g.measureText(lab).width;
+      g.font = `400 ${14 * d}px "Geist Mono", monospace`; const fw = g.measureText(`${f.toFixed(2)} Hz`).width, gap = 12 * d, tot = lw + gap + fw, x0 = x + w / 2 - tot / 2, ty = y + h + 36 * d;
+      g.fillStyle = col; g.beginPath(); g.arc(x0 - 14 * d, ty - 5 * d, 4 * d, 0, 2 * Math.PI); g.fill();
+      g.textAlign = 'left'; g.font = `500 ${16 * d}px Geist, sans-serif`; g.fillStyle = '#EEF1F6'; g.fillText(lab, x0, ty);
+      g.font = `400 ${14 * d}px "Geist Mono", monospace`; g.fillStyle = '#8C95A8'; g.fillText(`${f.toFixed(2)} Hz`, x0 + lw + gap, ty);
+    });
+    return bgCanvas;
+  }
+  function drawPanel(rect, r, c, on) {
+    const [x, y, w, h] = rect;
+    ctx.save(); ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.clip();
+    ctx.fillStyle = c > 0 && on ? tile(c) : '#808080'; ctx.fillRect(x, y, w, h); ctx.restore();
+  }
+  function drawFixation(now, ec) {
+    if (ec) return;
+    const cx = cv.width / 2, cy = (panelRects().L[1] + panelRects().L[1] + panelRects().L[3]) / 2, d = devicePixelRatio, r = 8 * d;
     const steady = trial && /step2$/.test(trial.mode);  // no green flash while attention must go to the sides
     if (!steady && now > nextFlash) { fixFlashUntil = now + 250; nextFlash = now + 2000 + Math.random() * 3000; }
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.fillStyle = now < fixFlashUntil ? '#00c853' : '#e00000'; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, cy, r + 8 * d, 0, 2 * Math.PI); ctx.strokeStyle = 'rgba(238,241,246,.35)'; ctx.lineWidth = 1.5 * d; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.fillStyle = now < fixFlashUntil ? '#00c853' : '#ff2a2a'; ctx.fill();
   }
   function render(now) {
     requestAnimationFrame(render);
     if (state === 'idle') return;
-    const W = cv.width, gap = Math.round(W * 0.03), half = W / 2;
+    const ec = !!(trial && trial.mode && trial.mode.startsWith('eyesclosed'));
+    ctx.drawImage(buildBg(ec), 0, 0);
+    const P = panelRects();
     if (state === 'flicker') {
-      drawHalf(0, half - gap, trial.left, (frame % k.left) < Math.floor(k.left / 2));
-      drawHalf(half + gap, half - gap, trial.right, (frame % k.right) < Math.floor(k.right / 2));
-      drawFixation(now); frame++;
+      if (!ec) {
+        drawPanel(P.L, P.r, trial.left, (frame % k.left) < Math.floor(k.left / 2));
+        drawPanel(P.R, P.r, trial.right, (frame % k.right) < Math.floor(k.right / 2));
+      }
+      drawFixation(now, ec); frame++;
       if (frame === 1) trialT0 = now;
       if (frame === 61 && trial.mode !== 'check') {  // safety: is the screen still at the rate we measured?
         const fps = 60000 / (now - trialT0);
@@ -620,7 +797,10 @@ Do cars grow on trees? | no</textarea>
         if (trial.mode !== 'check' && Math.abs(fps - refresh) / refresh > 0.1) { timingFault(fps); return; }
         endTrial();
       }
-    } else { ctx.fillStyle = '#808080'; ctx.fillRect(0, 0, W, cv.height); drawFixation(now); }
+    } else {
+      if (!ec) { drawPanel(P.L, P.r, 0, false); drawPanel(P.R, P.r, 0, false); }
+      drawFixation(now, ec);
+    }
   }
   requestAnimationFrame(render);
 
@@ -646,9 +826,9 @@ Do cars grow on trees? | no</textarea>
   }
   const BRAIN_FILL = (P) => `<radialGradient id="${P}ctx" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="#ead3df"/><stop offset=".55" stop-color="#c3a3c4"/><stop offset="1" stop-color="#7d6a9f"/></radialGradient>
     <radialGradient id="${P}ctxShade" cx="50%" cy="50%" r="60%"><stop offset=".6" stop-color="#1a1240" stop-opacity="0"/><stop offset="1" stop-color="#1a1240" stop-opacity=".55"/></radialGradient>
-    <radialGradient id="${P}glowL"><stop offset="0" stop-color="#5fe1ff" stop-opacity=".95"/><stop offset="1" stop-color="#5fe1ff" stop-opacity="0"/></radialGradient>
-    <radialGradient id="${P}glowR"><stop offset="0" stop-color="#ffb35c" stop-opacity=".95"/><stop offset="1" stop-color="#ffb35c" stop-opacity="0"/></radialGradient>
-    <radialGradient id="${P}sens"><stop offset="0" stop-color="#7c9cff" stop-opacity=".6"/><stop offset="1" stop-color="#7c9cff" stop-opacity="0"/></radialGradient>`;
+    <radialGradient id="${P}glowL"><stop offset="0" stop-color="#86CFD9" stop-opacity=".95"/><stop offset="1" stop-color="#86CFD9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="${P}glowR"><stop offset="0" stop-color="#E3B873" stop-opacity=".95"/><stop offset="1" stop-color="#E3B873" stop-opacity="0"/></radialGradient>
+    <radialGradient id="${P}sens"><stop offset="0" stop-color="#C9D3E8" stop-opacity=".6"/><stop offset="1" stop-color="#C9D3E8" stop-opacity="0"/></radialGradient>`;
   const SULC = (d, w) => `<path d="${d}" fill="none" stroke="#3b2a5c" stroke-opacity=".55" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="${d}" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="${w * 0.45}" stroke-linecap="round" transform="translate(.5 .6)"/>`;
 
@@ -661,13 +841,13 @@ Do cars grow on trees? | no</textarea>
       <path d="M92 26 L100 14 L108 26" fill="none" stroke="${css('--line-strong')}" stroke-width="1.5"/>
       <ellipse cx="13" cy="114" rx="6" ry="15" fill="none" stroke="${css('--line-strong')}" stroke-width="1.5"/>
       <ellipse cx="187" cy="114" rx="6" ry="15" fill="none" stroke="${css('--line-strong')}" stroke-width="1.5"/>
-      <circle cx="100" cy="114" r="88" fill="rgba(124,156,255,.04)" stroke="${css('--line-strong')}" stroke-width="1.5"/>
+      <circle cx="100" cy="114" r="88" fill="rgba(201,211,232,.04)" stroke="${css('--line-strong')}" stroke-width="1.5"/>
       ${[0, 1].map(side => `<g ${side ? 'transform="translate(200 0) scale(-1 1)"' : ''}>
         <path d="${HEMI}" fill="url(#tctx)"/>
         <g clip-path="url(#hemiClip)">${SULC(sulci(side ? r2 : r1, 30, 30, 100, 200, 70, 4.2, 1.6), 1.6)}${SULC(central, 2.4)}
           <path d="${HEMI}" fill="url(#tctxShade)"/></g>
         <path d="${HEMI}" fill="none" stroke="#2a1f4a" stroke-opacity=".7" stroke-width="1"/></g>`).join('')}
-      <text x="100" y="219" text-anchor="middle" font-family="Chakra Petch, Rajdhani, sans-serif" font-size="8.5" letter-spacing="2" fill="${css('--muted')}">BACK · VISUAL CORTEX</text>`;
+      <text x="100" y="219" text-anchor="middle" font-family="Geist, sans-serif" font-size="8.5" fill="${css('--muted')}">Back of the head (visual cortex)</text>`;
   }
   buildTopBrain();
 
@@ -698,8 +878,8 @@ Do cars grow on trees? | no</textarea>
     m.names.forEach(n => {
       const [x, y] = pos[n], q = m.quality[n] || 'flat', p = Math.min(1, (power[n] || 0) / 25);
       s += `<circle cx="${x}" cy="${y}" r="${8 + 10 * p}" fill="url(#tsens)" opacity="${q === 'ok' ? 0.4 + 0.6 * p : 0.2}"/>
-            <circle cx="${x}" cy="${y}" r="5" fill="${qc[q]}" stroke="#060b1a" stroke-width="1.5"/>
-            <text x="${x}" y="${y - 8}" text-anchor="middle" font-family="JetBrains Mono, Menlo, monospace" font-size="7.5" fill="${css('--text')}" stroke="#060b1a" stroke-width="2.4" paint-order="stroke">${n.replace('socket', 'S')}</text>`;
+            <circle cx="${x}" cy="${y}" r="5" fill="${qc[q]}" stroke="#0D1320" stroke-width="1.5"/>
+            <text x="${x}" y="${y - 8}" text-anchor="middle" font-family="Geist Mono, Menlo, monospace" font-size="7.5" fill="${css('--text')}" stroke="#0D1320" stroke-width="2.4" paint-order="stroke">${n.replace('socket', 'S')}</text>`;
     });
     $('hmDyn').innerHTML = s;
   }
@@ -711,23 +891,23 @@ Do cars grow on trees? | no</textarea>
     const CER = 'M150 190 C135 125 185 60 280 53 C375 47 447 97 453 163 C457 201 433 219 400 221 C373 223 353 213 325 217 C287 223 245 227 210 217 C177 209 155 210 150 190 Z';
     const CBL = 'M335 222 C350 208 395 206 420 216 C440 225 438 250 412 258 C385 266 350 262 338 248 C330 240 330 229 335 222 Z';
     el.innerHTML = `<defs>${BRAIN_FILL('s')}<clipPath id="cerClip"><path d="${CER}"/></clipPath><clipPath id="cblClip"><path d="${CBL}"/></clipPath>
-        <linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#5fe1ff"/><stop offset="1" stop-color="#ffb35c"/></linearGradient></defs>
+        <linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#86CFD9"/><stop offset="1" stop-color="#E3B873"/></linearGradient></defs>
       <path d="M128 70 C150 18 330 0 430 40 C505 72 520 170 500 230 C488 268 470 300 430 318 L300 318 C292 300 290 286 288 270" fill="none" stroke="${css('--line-strong')}" stroke-width="1.5" stroke-dasharray="3 5"/>
       <defs><pattern id="chkL" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#1d6f84"/><rect width="5" height="5" fill="#9cf0ff"/><rect x="5" y="5" width="5" height="5" fill="#9cf0ff"/></pattern>
         <pattern id="chkR" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#8a5a22"/><rect width="5" height="5" fill="#ffd29c"/><rect x="5" y="5" width="5" height="5" fill="#ffd29c"/></pattern>
-        <linearGradient id="rayL" x1="0" x2="1"><stop offset="0" stop-color="#5fe1ff" stop-opacity=".45"/><stop offset="1" stop-color="#5fe1ff" stop-opacity=".05"/></linearGradient>
-        <linearGradient id="rayR" x1="0" x2="1"><stop offset="0" stop-color="#ffb35c" stop-opacity=".45"/><stop offset="1" stop-color="#ffb35c" stop-opacity=".05"/></linearGradient>
+        <linearGradient id="rayL" x1="0" x2="1"><stop offset="0" stop-color="#86CFD9" stop-opacity=".45"/><stop offset="1" stop-color="#86CFD9" stop-opacity=".05"/></linearGradient>
+        <linearGradient id="rayR" x1="0" x2="1"><stop offset="0" stop-color="#E3B873" stop-opacity=".45"/><stop offset="1" stop-color="#E3B873" stop-opacity=".05"/></linearGradient>
         <radialGradient id="scl" cx="35%" cy="40%" r="75%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cfd6f2"/></radialGradient></defs>
       <path d="M33 150 L109 176 L109 184 L33 196 Z" fill="url(#rayL)" class="pulseL"/>
       <path d="M58 158 L109 177 L109 185 L58 204 Z" fill="url(#rayR)" class="pulseR"/>
-      <path d="M35 240 L43 240 L45 262 L33 262 Z" fill="#151f3d" stroke="rgba(130,160,255,.35)"/>
-      <ellipse cx="39" cy="264" rx="24" ry="4.5" fill="#151f3d" stroke="rgba(130,160,255,.35)"/>
+      <path d="M35 240 L43 240 L45 262 L33 262 Z" fill="#151f3d" stroke="rgba(220,228,255,.35)"/>
+      <ellipse cx="39" cy="264" rx="24" ry="4.5" fill="#151f3d" stroke="rgba(220,228,255,.35)"/>
       <g transform="matrix(.78 .2 0 1 8 118)">
-        <rect x="-5" y="-5" width="90" height="120" rx="5" fill="#0a1328" stroke="rgba(130,160,255,.5)" stroke-width="1.2"/>
-        <rect x="1" y="1" width="38" height="108" fill="url(#chkL)"/><rect class="tintL" x="1" y="1" width="38" height="108" fill="#5fe1ff"/>
-        <rect x="41" y="1" width="38" height="108" fill="url(#chkR)"/><rect class="tintR" x="41" y="1" width="38" height="108" fill="#ffb35c"/>
+        <rect x="-5" y="-5" width="90" height="120" rx="5" fill="#141B2B" stroke="rgba(220,228,255,.5)" stroke-width="1.2"/>
+        <rect x="1" y="1" width="38" height="108" fill="url(#chkL)"/><rect class="tintL" x="1" y="1" width="38" height="108" fill="#86CFD9"/>
+        <rect x="41" y="1" width="38" height="108" fill="url(#chkR)"/><rect class="tintR" x="41" y="1" width="38" height="108" fill="#E3B873"/>
         <rect x="37" y="1" width="6" height="108" fill="#808080"/>
-        <circle cx="40" cy="55" r="3.2" fill="#e00000" stroke="#060b1a" stroke-width=".8"/></g>
+        <circle cx="40" cy="55" r="3.2" fill="#e00000" stroke="#0D1320" stroke-width=".8"/></g>
       <g>
         <path d="M104 170 C112 160 132 160 140 168" fill="none" stroke="#b9a3c9" stroke-width="2" stroke-linecap="round"/>
         <path d="M104 190 C112 198 132 198 140 192" fill="none" stroke="#b9a3c9" stroke-width="2" stroke-linecap="round"/>
@@ -746,9 +926,9 @@ Do cars grow on trees? | no</textarea>
       <path d="${CBL}" fill="none" stroke="#2a1f4a" stroke-width="1.2"/>
       <path d="M318 214 C322 245 326 272 322 310 L346 310 C344 272 346 246 350 216 Z" fill="#a98fb3" stroke="#2a1f4a" stroke-width="1.2"/>
       <path d="M148 185 C190 196 250 200 300 190 C350 180 400 168 432 160" fill="none" stroke="url(#beam)" stroke-width="2.4" stroke-opacity=".95" class="flow"/>
-      ${[[478, 120], [492, 150], [494, 182], [484, 212]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="9" fill="url(#ssens)"/><circle cx="${x}" cy="${y}" r="5" fill="${css('--good')}" stroke="#060b1a" stroke-width="1.5"/>`).join('')}
-      <g font-family="Manrope, sans-serif" font-size="12.5" fill="#c3cbec">
-        <text x="4" y="104">Screen: two halves flicker</text><text x="4" y="290" font-size="11.5"><tspan fill="#5fe1ff">8.57 Hz</tspan><tspan fill="${css('--muted')}"> · </tspan><tspan fill="#ffb35c">12 Hz</tspan></text><text x="4" y="306" font-size="11" fill="${css('--muted')}">eyes stay on the red dot</text>
+      ${[[478, 120], [492, 150], [494, 182], [484, 212]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="9" fill="url(#ssens)"/><circle cx="${x}" cy="${y}" r="5" fill="${css('--good')}" stroke="#0D1320" stroke-width="1.5"/>`).join('')}
+      <g font-family="Geist, sans-serif" font-size="12.5" fill="#B9C0CE">
+        <text x="4" y="104">Screen: two halves flicker</text><text x="4" y="290" font-size="11.5"><tspan fill="#86CFD9">8.57 Hz</tspan><tspan fill="${css('--muted')}"> · </tspan><tspan fill="#E3B873">12 Hz</tspan></text><text x="4" y="306" font-size="11" fill="${css('--muted')}">eyes stay on the red dot</text>
         <text x="60" y="330" fill="${css('--muted')}" font-size="11.5">eye → optic pathway → visual cortex (back of the brain)</text>
         <text x="536" y="22" text-anchor="end">Visual cortex pulses at the</text><text x="536" y="38" text-anchor="end">rate of the side you attend to</text>
         <line x1="470" y1="44" x2="448" y2="112" stroke="${css('--line-strong')}"/>
@@ -762,10 +942,10 @@ Do cars grow on trees? | no</textarea>
   function drawTrace(m) {
     const [w, h] = fit(tc, tx); tx.clearRect(0, 0, w, h);
     const n = m.data.length, lane = h / n, left = 52, pw = w - left - 4;
-    tx.strokeStyle = 'rgba(130,160,255,.08)'; tx.lineWidth = 1;
+    tx.strokeStyle = 'rgba(220,228,255,.08)'; tx.lineWidth = 1;
     for (let s = 0; s <= 8; s++) { const x = left + pw * s / 8; tx.beginPath(); tx.moveTo(x, 0); tx.lineTo(x, h); tx.stroke(); }
     const scale = lane / 2 / 40;
-    tx.font = '11px "JetBrains Mono", monospace'; tx.textBaseline = 'middle';
+    tx.font = '11px "Geist Mono", monospace'; tx.textBaseline = 'middle';
     m.data.forEach((row, i) => {
       const y0 = lane * i + lane / 2, q = m.quality[m.names[i]], good = q === 'ok';
       tx.fillStyle = good ? css('--text') : css('--muted'); tx.fillText(m.names[i], 4, y0);
@@ -791,12 +971,12 @@ Do cars grow on trees? | no</textarea>
   function drawSpec(m, sp) {
     const [w, h] = fit(sc, sx); sx.clearRect(0, 0, w, h);
     const max = Math.max(...sp.map(p => p[1]), 0.5), x = f => 8 + (w - 16) * (f - 3) / 27, bw = (w - 16) / sp.length;
-    [freqs.left, freqs.right].forEach((f, i) => { sx.fillStyle = i ? 'rgba(255,179,92,.12)' : 'rgba(95,225,255,.12)'; sx.fillRect(x(f) - 6, 0, 12, h - 16); });
+    [freqs.left, freqs.right].forEach((f, i) => { sx.fillStyle = i ? 'rgba(227,184,115,.12)' : 'rgba(134,207,217,.12)'; sx.fillRect(x(f) - 6, 0, 12, h - 16); });
     sp.forEach(([f, a]) => {
       const near = Math.abs(f - freqs.left) < 0.3 ? css('--left') : Math.abs(f - freqs.right) < 0.3 ? css('--right') : 'rgba(143,178,255,.55)';
       const bh = (h - 22) * a / max; sx.fillStyle = near; sx.fillRect(x(f) - bw / 2 + 0.5, h - 16 - bh, Math.max(1, bw - 1), bh);
     });
-    sx.fillStyle = css('--muted'); sx.font = '10px "JetBrains Mono", monospace'; sx.textAlign = 'center';
+    sx.fillStyle = css('--muted'); sx.font = '10px "Geist Mono", monospace'; sx.textAlign = 'center';
     [5, 10, 15, 20, 25, 30].forEach(f => sx.fillText(`${f}`, x(f), h - 4));
   }
   function drawAll(m) {
@@ -807,10 +987,10 @@ Do cars grow on trees? | no</textarea>
   }
 
   // ---------- HUD ----------
-  const STEP = { 'awareness-step1': 'PART 1 OF 2 · SIGNAL CHECK', 'awareness-step2': 'PART 2 OF 2 · FOCUS LEFT / RIGHT', 'answers-step1': 'PART 1 OF 2 · SIGNAL CHECK', 'answers-step2': 'PART 2 OF 2 · YES / NO QUESTIONS', 'eyesclosed-step1': 'PART 1 OF 2 · EYES-CLOSED SIGNAL CHECK', 'eyesclosed-step2': 'PART 2 OF 2 · MENTAL MATH OR RELAX', calibrate: 'CALIBRATION', test: 'BLINDED LEFT / RIGHT', contrast: 'CONTRAST CURVE', check: 'HEADSET CHECK' };
+  const STEP = { 'awareness-step1': 'Part 1 of 2: signal check', 'awareness-step2': 'Part 2 of 2: focus left or right', 'answers-step1': 'Part 1 of 2: signal check', 'answers-step2': 'Part 2 of 2: yes or no questions', 'eyesclosed-step1': 'Part 1 of 2: eyes-closed signal check', 'eyesclosed-step2': 'Part 2 of 2: mental math or relax', calibrate: 'Calibration', test: 'Blinded left or right', contrast: 'Contrast curve', check: 'Headset check' };
   function hudSet(m) {
-    $('hStep').textContent = STEP[m.mode] || 'RUNNING';
-    $('hCount').textContent = m.mode === 'check' ? 'ESC TO STOP' : `TURN ${m.i + 1} OF ${m.n}${plan ? ` · PASS AT ${plan.bar}` : ''} · ESC TO STOP`;
+    $('hStep').textContent = STEP[m.mode] || 'Running';
+    $('hCount').textContent = m.mode === 'check' ? 'Esc to stop' : `Turn ${m.i + 1} of ${m.n}${plan ? `, pass at ${plan.bar}` : ''}  ·  Esc to stop`;
     $('hSegs').innerHTML = m.mode === 'check' ? '<i class="now"></i>' : Array.from({ length: m.n }, (_, j) => `<i class="${j < m.i ? 'done' : j === m.i ? 'now' : ''}"></i>`).join('');
   }
   function hudCmd(main, sub, side) { const el = $('hCmd'); if (!main) { el.style.display = 'none'; return; }
@@ -840,12 +1020,12 @@ Do cars grow on trees? | no</textarea>
     const yn = m.mode === 'answers-step2';
     $('ynY').style.display = yn ? 'block' : 'none'; $('ynN').style.display = yn ? 'block' : 'none';
     const ec = m.mode.startsWith('eyesclosed');
-    if (ec) { hudCmd(m.command === 'math' ? 'COUNT BACKWARDS' : 'RELAX', `${m.prompt || ''} · eyes closed, no movement`); if (m.prompt) speak(m.prompt); wait = m.command === 'math' ? 4500 : 3000; }
-    else if (m.question) { hudCmd(m.question, 'Answer by focusing on ◀ YES or NO ▶ · eyes stay on the red dot'); speak(`${m.question} Focus on yes, or no.`); wait = 4500; }
-    else if (m.command) { const L = m.command === 'left'; hudCmd(L ? '◀ FOCUS LEFT' : 'FOCUS RIGHT ▶', 'Eyes stay on the red dot', L ? 'L' : 'R'); speak(`Focus on the ${m.command} side.`); wait = 3000; }
-    else if (m.mode === 'awareness-step1' || m.mode === 'answers-step1') hudCmd('JUST LOOK AT THE RED DOT', m.left > 0 ? 'Checking that we can pick up the flicker' : 'Gray screen, for comparison');
-    else if (m.mode === 'check') hudCmd('HEADSET CHECK', 'Look at the red dot, then "left", then "right". Watch the bars at the bottom.');
-    else hudCmd('LOOK AT THE DOT');
+    if (ec) { hudCmd(m.command === 'math' ? 'Count backwards' : 'Relax', `${m.prompt || ''}. Eyes closed, no movement.`); if (m.prompt) speak(m.prompt); wait = m.command === 'math' ? 4500 : 3000; }
+    else if (m.question) { hudCmd(m.question, 'Answer by focusing on the yes or no side. Eyes stay on the red dot.'); speak(`${m.question} Focus on yes, or no.`); wait = 4500; }
+    else if (m.command) { const L = m.command === 'left'; hudCmd(L ? 'Focus left' : 'Focus right', 'Eyes stay on the red dot', L ? 'L' : 'R'); speak(`Focus on the ${m.command} side.`); wait = 3000; }
+    else if (m.mode === 'awareness-step1' || m.mode === 'answers-step1') hudCmd('Just look at the red dot', m.left > 0 ? 'Checking that we can pick up the flicker' : 'Gray screen, for comparison');
+    else if (m.mode === 'check') hudCmd('Headset check', 'Look at the red dot, then "left", then "right". Watch the bars at the bottom.');
+    else hudCmd('Look at the dot');
     setTimeout(() => { if (state !== 'prep') return; hudCmd(null); if (ec) hudMsg(m.command === 'math' ? 'Counting backwards... (eyes closed)' : 'Relaxing... (eyes closed)'); frame = 0; framesTotal = Math.round(m.duration * refresh); state = 'flicker'; send({ type: 'trial_started', i: m.i }); }, wait);
   }
   let trialT0 = 0;
@@ -880,9 +1060,9 @@ Do cars grow on trees? | no</textarea>
 
   function ring(frac, color) {
     const r = 120, c = 2 * Math.PI * r;
-    return `<svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="${r}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="18"/>
-      <circle id="ringArc" cx="150" cy="150" r="${r}" fill="none" stroke="${color}" stroke-width="18" stroke-linecap="round"
-        stroke-dasharray="${c}" stroke-dashoffset="${c}" style="transition: stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1); filter: drop-shadow(0 0 10px ${color})" data-target="${c * (1 - frac)}"/></svg>`;
+    return `<svg viewBox="0 0 300 300"><circle cx="150" cy="150" r="${r}" fill="none" stroke="rgba(238,241,246,.07)" stroke-width="6"/>
+      <circle id="ringArc" cx="150" cy="150" r="${r}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"
+        stroke-dasharray="${c}" stroke-dashoffset="${c}" style="transition: stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)" data-target="${c * (1 - frac)}"/></svg>`;
   }
   function reportHead(title) {
     return `<h1>StillHere · Bedside visual command screen${title}</h1>
@@ -909,6 +1089,31 @@ Do cars grow on trees? | no</textarea>
       <div class="sig"><div>Reviewed by</div><div>Date</div></div>`;
   }
 
+  // Per-turn chart: one bar per turn, centered on the median (that's the split the
+  // scorer uses). Up = brain leaned left/yes/math, down = right/no/rest.
+  // Bar color = what we asked for. Filled = EEG agreed, hollow = it didn't.
+  function turnChart(m, YN, EC) {
+    const vals = m.results.map(r => EC ? -(r.alpha || 0) : (r.ratio || 0));
+    const srt = [...vals].sort((a, b) => a - b), med = (srt[(srt.length - 1) >> 1] + srt[srt.length >> 1]) / 2;
+    const c = vals.map(v => v - med), mx = Math.max(0.05, ...c.map(Math.abs));
+    const W = 640, H = 230, padL = 132, padR = 12, mid = 108, amp = 84, bw = (W - padL - padR) / c.length;
+    const up = YN ? 'Leans yes' : EC ? 'Looks like math' : 'Leans left', dn = YN ? 'Leans no' : EC ? 'Looks like rest' : 'Leans right';
+    let g = `<line x1="${padL}" x2="${W - padR}" y1="${mid}" y2="${mid}" stroke="rgba(170,180,220,.5)" stroke-dasharray="4 4"/>
+      <text x="${padL - 10}" y="${mid - amp + 10}" text-anchor="end" class="ax">${up} ▲</text>
+      <text x="${padL - 10}" y="${mid + amp}" text-anchor="end" class="ax">${dn} ▼</text>
+      <text x="${padL - 10}" y="${mid + 4}" text-anchor="end" class="ax">Split</text>`;
+    m.results.forEach((r, i) => {
+      const h = Math.abs(c[i]) / mx * amp, y = c[i] >= 0 ? mid - h : mid, x = padL + i * bw + bw * 0.18, w = bw * 0.64;
+      const col = r.command === 'left' ? 'var(--left)' : 'var(--right)', hit = r.command === r.brain;
+      g += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(2, h).toFixed(1)}" rx="3" fill="${hit ? col : 'transparent'}" fill-opacity="${hit ? .85 : 0}" stroke="${col}" stroke-width="1.5" ${hit ? '' : 'stroke-dasharray="3 3"'}><title>Turn ${i + 1}: asked ${YN ? (r.command === 'left' ? 'yes' : 'no') : EC ? (r.command === 'left' ? 'math' : 'rest') : r.command}, ${hit ? 'matched' : 'missed'}</title></rect>
+        <text x="${(x + w / 2).toFixed(1)}" y="${H - 6}" text-anchor="middle" class="ax">${i + 1}</text>`;
+    });
+    const a = YN ? ['yes', 'no'] : EC ? ['math', 'rest'] : ['left', 'right'];
+    return `<div class="tchart"><div class="tc-h"><span>What the brain did, turn by turn</span><span class="lg"><i style="background:var(--left)"></i>asked ${a[0]} <i style="background:var(--right)"></i>asked ${a[1]} <i class="hol"></i>missed</span></div>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Per-turn chart">${g}</svg>
+      <p class="fine">Each bar is one turn. A ${a[0]} bar pointing up, or a ${a[1]} bar pointing down, is a match. ${EC ? 'Height = how much the alpha rhythm dropped (math) or stayed (rest).' : 'Height = how much stronger one side\'s flicker showed up in the EEG.'}</p></div>`;
+  }
+
   function showSummary(m) {
     if (m.mode === 'stopped' || m.mode === 'check') { view('home'); if (m.counted) alert('Stopped after scoring began. This counts as a run for this patient and resets any pending pass.'); return; }
     if (m.mode === 'invalid') { view('home'); alert(m.reason); return; }
@@ -919,7 +1124,7 @@ Do cars grow on trees? | no</textarea>
       : { ...r, command: r.target });
     if (['awareness', 'answers', 'eyesclosed'].includes(m.mode) && m.outcome === 'not_interpretable') {
       printAbort(m);
-      html = `<div class="res-top"><span class="k">STILLHERE // RESULT · ${esc($('pid').value)}</span><span class="k">${new Date().toLocaleString()}</span></div>
+      html = `<div class="res-top"><span class="k">Result for ${esc($('pid').value)}</span><span class="k">${new Date().toLocaleString()}</span></div>
         <div class="abort"><p class="verdict bad">${esc(m.reason || ABORT)}</p>${back}</div>`;
     } else if (['awareness', 'answers', 'eyesclosed'].includes(m.mode)) {
       const YN = m.mode === 'answers', EC = m.mode === 'eyesclosed';
@@ -930,21 +1135,22 @@ Do cars grow on trees? | no</textarea>
         : "Didn't pass this time. That doesn't mean the person isn't aware, it just means we couldn't tell.";
       const color = v[0] === 'good' ? css('--good') : v[0] === 'info' ? css('--brand') : css('--muted');
       printReport(m, v[1], interp);
-      html = `<div class="res-top"><span class="k">STILLHERE // RESULT · ${esc($('pid').value)}</span><span class="k">${new Date().toLocaleString()}</span></div>
-        <div class="planline">TRIALS PLANNED: ${m.n} · BAR: ${m.bar} OR MORE CORRECT · SENSORS LOCKED AT STEP 01</div>
+      html = `<div class="res-top"><span class="k">Result for ${esc($('pid').value)}</span><span class="k">${new Date().toLocaleString()}</span></div>
+        <div class="planline">${m.n} turns planned. A pass needs ${m.bar} or more. Sensors were locked after part 1.</div>
         <div class="res-main">
           <div><div class="ring">${ring(m.followed / m.n, color)}<div class="c"><b>${m.followed}/${m.n}</b><span>matched<br>${m.n / 2} expected by chance</span></div></div></div>
           <div>
             <p class="verdict ${v[0]}">${v[1]}</p>
             ${m.note ? `<p class="fine">${esc(m.note)}</p>` : ''}
             <div class="kv">
-              <div><div class="k">${EC ? 'Alpha rhythm' : 'Visual pathway'}</div><div class="v" style="color:${css('--good')}">Confirmed</div><div class="fine">step 01 passed</div></div>
+              <div><div class="k">${EC ? 'Alpha rhythm' : 'Visual pathway'}</div><div class="v" style="color:${css('--good')}">Confirmed</div><div class="fine">part 1 passed</div></div>
               <div><div class="k">Preset bar</div><div class="v">${m.bar} of ${m.n}</div><div class="fine">locked before the run</div></div>
               <div><div class="k">p (chance)</div><div class="v">${m.p_chance.toFixed(3)}</div><div class="fine">exact permutation</div></div>
             </div>
             <p class="pnote">${PNOTE}</p>
-            <div class="k fine" style="letter-spacing:.16em;font-family:var(--font-display);margin-top:14px">${YN ? 'ANSWERS (EXPECTED)' : EC ? 'MATH / REST SEQUENCE' : 'COMMAND SEQUENCE'}</div>
+            <div class="fine" style="margin-top:18px;font-size:13px;color:var(--text)">${YN ? 'Questions asked (expected answer)' : EC ? 'Math or rest, in order' : 'Commands, in order'}</div>
             <div class="seq">${m.results.map(r => `<div title="${esc(r.question || '')}" class="${r.command === 'left' ? 'L' : 'R'} ${r.command === r.brain ? '' : 'miss'}">${YN ? (r.command === 'left' ? 'YES' : 'NO') : EC ? (r.command === 'left' ? 'MATH' : 'REST') : (r.command === 'left' ? '◀ L' : 'R ▶')}<small>${r.command === r.brain ? '✓' : '✗'} ${r.i + 1}</small></div>`).join('')}</div>
+            ${turnChart(m, YN, EC)}
             <p class="interp">${interp}</p>
             <p class="fine">The classifier saw EEG only and never the ${YN ? 'expected answer' : 'command'}. Research prototype; not a diagnostic device.</p>
             <details class="fine" open><summary>Every run for this patient</summary><table class="dat"><tr><th>#</th><th>When</th><th>Test</th><th>Matched</th><th>Outcome</th></tr>${histRows(m.history)}</table></details>
@@ -956,12 +1162,12 @@ Do cars grow on trees? | no</textarea>
           </div>
         </div>`;
     } else if (m.mode === 'calibrate') {
-      html = `<div class="res-top"><span class="k">CALIBRATION</span></div><p class="verdict good">Thresholds set · L ${f2(m.thresholds.left)} · R ${f2(m.thresholds.right)}</p>${back}`;
+      html = `<div class="res-top"><span class="k">Calibration</span></div><p class="verdict good">Thresholds set · L ${f2(m.thresholds.left)} · R ${f2(m.thresholds.right)}</p>${back}`;
     } else if (m.mode === 'test') {
-      html = `<div class="res-top"><span class="k">BLINDED LEFT / RIGHT</span></div><p class="verdict">${m.correct} / ${m.n} correct <span class="fine">(chance 33%)</span></p>
+      html = `<div class="res-top"><span class="k">Blinded left or right</span></div><p class="verdict">${m.correct} / ${m.n} correct <span class="fine">(chance 33%)</span></p>
         <table class="dat"><tr><th>Hidden</th><th>EEG said</th><th>SNR L / R</th></tr>${m.results.map(r => `<tr><td>${r.truth}</td><td>${r.predicted}</td><td>${f2(r.snr.left)} / ${f2(r.snr.right)}</td></tr>`).join('')}</table>${back}`;
     } else if (m.mode === 'contrast') {
-      html = `<div class="res-top"><span class="k">CONTRAST CURVE · RIGHT</span></div><table class="dat"><tr><th>Contrast</th><th>SNR R</th><th>SNR L</th></tr>${m.steps.map(s => `<tr><td>${Math.round(s.contrast * 100)}%</td><td>${f2(s.snr_right)}</td><td>${f2(s.snr_left)}</td></tr>`).join('')}</table>${back}`;
+      html = `<div class="res-top"><span class="k">Contrast curve, right side</span></div><table class="dat"><tr><th>Contrast</th><th>SNR R</th><th>SNR L</th></tr>${m.steps.map(s => `<tr><td>${Math.round(s.contrast * 100)}%</td><td>${f2(s.snr_right)}</td><td>${f2(s.snr_left)}</td></tr>`).join('')}</table>${back}`;
     }
     $('resBody').innerHTML = html; view('results');
     const arc = $('ringArc'); if (arc) requestAnimationFrame(() => requestAnimationFrame(() => arc.setAttribute('stroke-dashoffset', arc.dataset.target)));
@@ -1011,7 +1217,7 @@ Do cars grow on trees? | no</textarea>
                 'Try not to blink while it flickers. Blink and relax when the screen goes gray.',
                 'Quick practice now: look at the dot. Without moving your eyes, notice the left side. Now the right. That\'s all it is.'],
       checks: ['This is a new patient ID: <b>{PID}</b>', ...SETUP, 'Someone can watch their eyes during the test.'], safety: true,
-      watch: '<b>What you\'ll see:</b> first 3 short screens (flicker, gray, flicker). Then 12 turns, each with a big FOCUS LEFT or FOCUS RIGHT card and the voice. The meter at the bottom should lean a little toward the side that was asked. At the end you get the result.' },
+      watch: '<b>What you\'ll see:</b> first 3 short screens (flicker, gray, flicker). Then 12 turns, each with a big "Focus left" or "Focus right" card and the voice. The meter at the bottom should lean a little toward the side that was asked. At the end you get the result.' },
     answers: { title: 'Yes / No test', time: () => `About ${est(3, 12)} minutes · scored · 12 questions`,
       subject: ['This takes about {T} minutes. Just sit still and listen. No moving or talking.',
                 'Keep your eyes on the red dot the whole time. The left half means YES, the right half means NO.',
