@@ -6,6 +6,12 @@ Some patients who look unresponsive (eyes open, no movement) are actually aware.
 
 StillHere tries this with vision: a laptop screen and the 4 dry sensors of a g.tec Unicorn BCI Core-4 on the back of the head.
 
+<p align="center">
+  <img src="docs/build-sprint.jpeg" alt="Building StillHere at the USF BCI Club Build Sprint" width="380">
+  <br>
+  <sub>Building StillHere at the USF BCI Club Build Sprint, Nov 7, 2026. <a href="https://www.linkedin.com/posts/maria-antonia-piedrah%C3%ADta-l%C3%B3pez_bci-braincomputerinterface-neurotechnology-ugcPost-7525972648343011328-GdrM/">See the event post on LinkedIn</a>.</sub>
+</p>
+
 ## Contents
 
 1. [Set up a new laptop](#1-set-up-a-new-laptop) (about 10 minutes)
@@ -250,6 +256,7 @@ stillhere/
     fonts/           bundled fonts (works offline)
   docs/
     StillHere-deck.pdf
+    build-sprint.jpeg  photo from the build sprint
   tests/             simulator tests
   recordings/        created on first run: raw EEG, logs, ledger.json
 ```
